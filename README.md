@@ -20,15 +20,34 @@ The python file takes the following as command line arguments
 python canny_edge.py --img_path data/67079.jpg --sigma 2.5 --LTR 0.1 --HTR 0.2
 ```
 ## Results
-#### Image 1
+### Parameters
+Sigma = 1.4
+LTH = 0.15
+HTR = 0.2
+### Original image 
+![org](results/original_img.jpg)
+### Gaussian filter
+![Gaussian filter](results/gaussian_filter.jpg)
+### Original image with gaussian filter
+![Original image with gaussian filter](results/image_with_gausssian_blur.jpg)
+### gaussian derivative mask in x and y direction
+![gaussian derivative ](results/derivatives_in_xy_direction.jpg)
+### Magnitude and Orientation of the image
+![Magnitude and Orientation](results/mag_and_orient.jpg)
+
+### Non-Max Supression
+![NMS](results/NMS.jpg)
+### Double Threshold Hysterisis
+![DTH](results/DTH.jpg)
+### Image 1
 ![image 1](results/image_1.jpg)
 The best sigma value is **sigma=1.5** because it eliminates suitable amount of some noise while retaining almost all important edges unlike **sigma=10**
-#### Image 2
+### Image 2s
 ![image 2](results/image_2.jpg)
 **sigma=1** is the best parameter here, as sigma is increased, the details of the person in the foreground are decreasing as well
-#### Image 3
+### Image 3
 ![image 3](results/image_3.jpg)
 Here the best **sigma=1.5** retains the edges of the building int he background while keeping the details of the boat in the foreground intact
-#### Image 4
+### Image 4
 ![image 4](results/image_4.jpg)
 In this image **sigma=1.5** is the best since it retains sharp edges and most details
