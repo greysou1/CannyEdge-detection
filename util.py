@@ -186,6 +186,14 @@ def DoThreshHyst(img, HTR=0.32, LTR=0.30):
     return GSup
 
 def pad(image, kernel):
+    '''
+    This function adds zero-padding to the input image based on the given kernel
+    Args:
+        image (numpy.array): image on which the padding is to be applied.
+        kernel (numpy.array): the kernel's shape is used to pad the input image
+    Returns:
+        an numpy.array image with zero-padding applied.
+    '''
     if kernel.shape[0] == 1:
         k = kernel.shape[1]
         if k % 2 == 0:
@@ -231,13 +239,14 @@ def pad(image, kernel):
 
 
 def convolve(image, kernel):
-    """
-    This function which takes an image and a kernel and returns the convolution of them.
-
-    :param image: a numpy array of size [image_height, image_width].
-    :param kernel: a numpy array of size [kernel_height, kernel_width].
-    :return: a numpy array of size [image_height, image_width] (convolution output).
-    """
+    '''
+    This function computes the convolution of the given image with the given kernel.
+    Args:
+        image (numpy.array): image on which the convolution is to be performed. size [image_height, image_width].
+        kernel (numpy.array): the kernel which is to be applied to the image. size [kernel_height, kernel_width].
+    Return: 
+        a numpy array of size [image_height, image_width] (convolution output).
+    '''
     # Flip the kernel
     # kernel = np.flipud(np.fliplr(kernel))
     # convolution output

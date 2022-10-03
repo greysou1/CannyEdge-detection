@@ -27,6 +27,7 @@ HTR = 0.2
 ### Original image 
 
 ![org](results/original_img.jpg)
+### 1) A figure showing intermediate results
 <table>
  <tr>
   <td align="center"><img src="results/gauss_x.jpg" width="100%" height="auto" /></td>
@@ -39,6 +40,7 @@ HTR = 0.2
   <td align="center"><img src="results/NMS.jpg" width="100%" height="auto" /></td>
  </tr>
 </table>
+
 ### Gaussian filter
 ![Gaussian filter](results/gaussian_filter.jpg)
 ### Original image with gaussian filter
@@ -52,10 +54,12 @@ HTR = 0.2
 ![NMS](results/NMS.jpg)
 ### Double Threshold Hysterisis
 ![DTH](results/DTH.jpg)
+
+### 2) Similar Figures showing the effect of σ (sigma).
 ### Image 1
 ![image 1](results/image_1.jpg)
 The best sigma value is **sigma=1.5** because it eliminates suitable amount of some noise while retaining almost all important edges unlike **sigma=10**
-### Image 2s
+### Image 2
 ![image 2](results/image_2.jpg)
 **sigma=1** is the best parameter here, as sigma is increased, the details of the person in the foreground are decreasing as well
 ### Image 3
