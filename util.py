@@ -186,25 +186,49 @@ def DoThreshHyst(img, HTR=0.32, LTR=0.30):
     return GSup
 
 def pad(image, kernel):
-    k = len(kernel[0])
-    pad_size = (k-1)//2
     if kernel.shape[0] == 1:
+        k = kernel.shape[1]
+        if k % 2 == 0:
+            # if k is even
+            pad_size = k
+        else: # if k is odd
+            pad_size = (k-1)
+    
         # x direction padding
         # Add zero padding to the input image
         image_padded = np.zeros((image.shape[0] + pad_size, image.shape[1]))
-        image_padded[1:-(pad_size-1), :] = image
+        # compute center offset
+        x_center = (image_padded.shape[1] - image.shape[1]) // 2
+        y_center = (image_padded.shape[0] - image.shape[0]) // 2
+
+        # copy img image into center of result image
+        image_padded[y_center:y_center+image.shape[0], x_center:x_center+image.shape[1]] = image
     elif kernel.shape[1] == 1:
+        k = kernel.shape[0]
+        pad_size = (k-1)
+    
         # y direction padding
         # Add zero padding to the input image
         image_padded = np.zeros((image.shape[0], image.shape[1] + pad_size))
-        image_padded[pad_size-(pad_size-1):-(pad_size-1), :] = image
+        # compute center offset
+        x_center = (image_padded.shape[1] - image.shape[1]) // 2
+        y_center = (image_padded.shape[0] - image.shape[0]) // 2
+        # copy img image into center of result image
+        image_padded[y_center:y_center+image.shape[0], x_center:x_center+image.shape[1]] = image
     else:
+        x_pad_size = (kernel.shape[0] - 1)
+        y_pad_size = (kernel.shape[1] - 1)
         # both x and y direction padding
         # Add zero padding to the input image
-        image_padded = np.zeros((image.shape[0] + pad_size, image.shape[1] + pad_size))
-        image_padded[pad_size-(pad_size-1):-(pad_size-1), :] = image  
+        image_padded = np.zeros((image.shape[0] + x_pad_size, image.shape[1] + y_pad_size))
+        # compute center offset
+        x_center = (image_padded.shape[1] - image.shape[1]) // 2
+        y_center = (image_padded.shape[0] - image.shape[0]) // 2
+        # copy img image into center of result image
+        image_padded[y_center:y_center+image.shape[0], x_center:x_center+image.shape[1]] = image
     
     return image_padded
+
 
 def convolve(image, kernel):
     """
@@ -215,19 +239,21 @@ def convolve(image, kernel):
     :return: a numpy array of size [image_height, image_width] (convolution output).
     """
     # Flip the kernel
-    kernel = np.flipud(np.fliplr(kernel))
+    # kernel = np.flipud(np.fliplr(kernel))
     # convolution output
     output = np.zeros_like(image)
-
-    # image_padded = pad(image, kernel)
-    image_padded = image
+    # print(image.shape)
+    image_padded = pad(image, kernel)
+    # image_padded = image
     # Loop over every pixel of the image
-    for x in range(image.shape[1]-kernel.shape[1]):
-        for y in range(image.shape[0]-kernel.shape[0]):
+    for x in range(image.shape[0]-kernel.shape[0]-1):
+        for y in range(image.shape[1]-kernel.shape[1]-1):
             # element-wise multiplication of the kernel and the image
-            output[y, x]=(kernel * image_padded[y: y+kernel.shape[0], x: x+kernel.shape[1]]).sum()
+            # print(kernel.shape)
+            # print(image_padded[x,y: y+kernel.shape[1]].shape)
+            output[x, y]=(kernel * image_padded[x: x+kernel.shape[0],y: y+kernel.shape[1]]).sum()
 
-    return output  
+    return output 
 
 def canny_edge(I, sigma, HTR, LTR):
     '''
