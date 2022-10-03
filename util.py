@@ -184,7 +184,51 @@ def DoThreshHyst(img, HTR=0.32, LTR=0.30):
     GSup = (GSup == 1) * GSup 
     
     return GSup
-  
+
+def pad(image, kernel):
+    k = len(kernel[0])
+    pad_size = (k-1)//2
+    if kernel.shape[0] == 1:
+        # x direction padding
+        # Add zero padding to the input image
+        image_padded = np.zeros((image.shape[0] + pad_size, image.shape[1]))
+        image_padded[1:-(pad_size-1), :] = image
+    elif kernel.shape[1] == 1:
+        # y direction padding
+        # Add zero padding to the input image
+        image_padded = np.zeros((image.shape[0], image.shape[1] + pad_size))
+        image_padded[pad_size-(pad_size-1):-(pad_size-1), :] = image
+    else:
+        # both x and y direction padding
+        # Add zero padding to the input image
+        image_padded = np.zeros((image.shape[0] + pad_size, image.shape[1] + pad_size))
+        image_padded[pad_size-(pad_size-1):-(pad_size-1), :] = image  
+    
+    return image_padded
+
+def convolve(image, kernel):
+    """
+    This function which takes an image and a kernel and returns the convolution of them.
+
+    :param image: a numpy array of size [image_height, image_width].
+    :param kernel: a numpy array of size [kernel_height, kernel_width].
+    :return: a numpy array of size [image_height, image_width] (convolution output).
+    """
+    # Flip the kernel
+    kernel = np.flipud(np.fliplr(kernel))
+    # convolution output
+    output = np.zeros_like(image)
+
+    # image_padded = pad(image, kernel)
+    image_padded = image
+    # Loop over every pixel of the image
+    for x in range(image.shape[1]-kernel.shape[1]):
+        for y in range(image.shape[0]-kernel.shape[0]):
+            # element-wise multiplication of the kernel and the image
+            output[y, x]=(kernel * image_padded[y: y+kernel.shape[0], x: x+kernel.shape[1]]).sum()
+
+    return output  
+
 def canny_edge(I, sigma, HTR, LTR):
     '''
     this function performs Canny Edge Detection (steps 1-7) and returns the final image
@@ -205,8 +249,8 @@ def canny_edge(I, sigma, HTR, LTR):
     Gy = dy * gaussmask(sigma, np.transpose(dy.shape))
 
     # step 4: apply the gaussion derivate mask to the Image
-    Ix = ndimage.convolve(I, Gx)
-    Iy = ndimage.convolve(I, Gy)
+    Ix = convolve(I, Gx)
+    Iy = convolve(I, Gy)
 
     # step 5: Compute the magnitude of the edge response by combining the x and y components.
     I_mag = np.hypot(Ix, Iy)

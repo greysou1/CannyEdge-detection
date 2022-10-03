@@ -25,7 +25,20 @@ Sigma = 1.4
 LTH = 0.15
 HTR = 0.2
 ### Original image 
+
 ![org](results/original_img.jpg)
+<table>
+ <tr>
+  <td align="center"><img src="results/gauss_x.jpg" width="100%" height="auto" /></td>
+  <td align="center"><img src="results/gauss_y.jpg" width="100%" height="auto" /></td>
+  <td align="center"><img src="results/X_deriv.jpg" width="100%" height="auto" /></td>
+ </tr>
+ <tr>
+  <td align="center"><img src="results/Y_deriv.jpg" width="100%" height="auto" /></td>
+  <td align="center"><img src="results/I_mag.jpg" width="100%" height="auto" /></td>
+  <td align="center"><img src="results/NMS.jpg" width="100%" height="auto" /></td>
+ </tr>
+</table>
 ### Gaussian filter
 ![Gaussian filter](results/gaussian_filter.jpg)
 ### Original image with gaussian filter
