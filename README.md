@@ -41,7 +41,9 @@ HTR = 0.2
  </tr>
 </table>
 
-### Gaussian filter
+### 1D Gaussian filter in x and y directions
+![1D filters](results/1DXYgaussmasks.jpg)
+### 1D Gaussian filter visualised in 2D
 ![Gaussian filter](results/gaussian_filter.jpg)
 ### Original image with gaussian filter
 ![Original image with gaussian filter](results/image_with_gausssian_blur.jpg)
